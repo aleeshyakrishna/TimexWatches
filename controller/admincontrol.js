@@ -1,7 +1,7 @@
 const { json } = require("express");
 const { response } = require("../app");
 const adminHelper = require("../helpers/adminHelpers");
-const userhelpers = require("../helpers/userhelpers");
+const userhelpers = require("../helpers/userHelpers");
 const db = require("../model/connection");
 const multer = require("multer");
 

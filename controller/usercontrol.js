@@ -1,6 +1,6 @@
 require('dotenv').config()
 const adminhelpers = require("../helpers/adminHelpers");
-const userhelpers = require("../helpers/userhelpers");
+const userhelpers = require("../helpers/userHelpers");
 const twilioApi = require('../api/twilio');
 const {verifyOtp}=require('../api/twilio')
 
