@@ -1,0 +1,88 @@
+<section class="vh-100 gradient-custom" style="background-color: whitesmoke; ">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card bg-dark text-white" style="border-radius: 1rem;">
+          <div class="card-body pl-5 pr-5 text-center" style="background-color: white;">
+
+            <div class="mb-md-5 mt-md-4 pb-3">
+
+              <h2 class="fw-bold mb-2 text-uppercase">Sign in</h2>
+
+
+
+              <div id="sender">
+
+                <form id="sendOtp" style="padding-left: 17%;">
+                  <label for="" style="font-family: sans-serif; color: #666;
+                      font-weight: 300;
+                      ">Phone Number*</label>
+                  <input type="text" name="mobile" class="form-control" autofocus=" " style="width: 10cm;">
+                  <hr>
+                  <button class="mb-2 btn-primary btn-lg text-white-50" type="submit">Send OTP</button>
+                </form>
+              </div>
+
+             
+
+              <label class="form-label" id="errorLoginPassword"></label>
+
+              <div id="verifier" style="display:none;">
+                <div class="form-outline form-white mb-4">
+                  <input style="width:8rem;margin:0 auto;" id="OtpField" class="form-control form-control-lg"
+                    placeholder="Enter otp" />
+                </div>
+               
+                <!-- <div>
+                  <button class="btn btn-primary mb-2" >Verify</button>
+                </div> -->
+              </div>
+
+              
+
+              <div>
+
+                <div>
+                  <a class="ms-5" href="/signup">New ? Create An Account</a>
+                </div>
+
+                
+              </div>
+              
+
+            </div>
+           
+          </div>
+        </div>
+      
+      </div>
+    </div>
+    
+  </div>
+</section>
+
+<script>
+
+  $(document).ready(function () {
+
+    // sending otp to the provided mobile number
+
+    $('#sendOtp').submit(function(e) {
+      e.preventDefault()
+      console.log('send otp clicked')
+      $.ajax({
+        url:'/sendOtp',
+        type: 'post',
+        data:$('#sendOtp').serialize()
+      }).done(res => {
+        console.log(res)
+        console.log('success')
+        location.href = '/verifyOtp'
+      }).fail(err => {
+        console.log(err)
+        console.log('failed')
+      })
+    })
+
+  })
+</script>

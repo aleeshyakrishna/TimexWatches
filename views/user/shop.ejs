@@ -1,0 +1,157 @@
+
+
+<body>
+    <!-- Quick view -->
+   
+    <main class="main">
+        
+        <section class="mt-50 mb-50">
+            <div class="container">
+                
+                <div class="row flex-row-reverse">
+                    <!-- filter -->
+                    <div class="col-lg-3 primary-sidebar sticky-sidebar">
+                        <div class="widget-category mb-30">
+                            <h5 class="section-title style-1 mb-30 wow fadeIn animated">Category</h5>
+                            <ul class="categories">
+                                <% cat.forEach(function(cat,index) { %>
+                                <li><a href="/category/<%=cat._id%>"><%=cat.CategoryName%></a></li>
+                                <% }) %>
+                            </ul>
+                        </div>
+                        <form id="sort-form" method="POST" action="/sort">
+                            <div class="sort-container">
+                              <label for="sort-select">Sort by:</label>
+                              <select
+                                id="sort-select"
+                                name="selectedValue"
+                                onchange="this.form.submit()"
+                              >
+                                <option value=""><a href="#">Price</a></option>
+                                <option value="price-low-to-high">
+                                  <a href="#">Price: Low to High</a>
+                                </option>
+                                <option value="price-high-to-low">
+                                  <a href="#">Price: High to Low</a>
+                                </option>
+                              </select>
+                            </div>
+                          </form>                      
+                    </div>
+                    <div class="col-lg-9">
+                       
+                        <div class="row product-grid-3">
+                            <% response.forEach(function(response,index) { %>
+                           
+                            <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+                                <div class="product-cart-wrap mb-30">
+                                    <div class="product-img-action-wrap">
+                                        <div class="product-img product-img-zoom">
+                                            <a href="/zoomView/<%= response._id %>">
+                                                <img class="default-img" src="/uploads/<%= response.Image[0] %>" alt="">
+                                                <!-- <img class="hover-img" src="assets/imgs/shop/product-7-1.jpg" alt=""> -->
+                                            </a>
+                                        </div>
+                                        <div class="product-action-1">
+                                            <a aria-label="Quick view" href="/zoomView/<%= response._id %>" class="action-btn hover-up" >
+                                            <i class="fi-rs-search"></i></a>
+                                            <a aria-label="Add To Wishlist" class="action-btn hover-up" onclick="addToWish('<%= response._id %>')"><i class="fi-rs-heart"></i></a>
+                                        </div>
+                                        <div class="product-badges product-badges-position product-badges-mrg">
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="product-content-wrap">
+                                        <div class="product-category">
+                                            <a href="/shop-product"><%=response.category%></a>
+                                        </div>
+                                        <h2><a href="/shop-product"><%=response.Productname%></a></h2>
+                                       
+                                        <div class="product-price">
+                                            <span>₹ <%=response.Price%></span>
+                                        </div >
+
+                                    </div>
+                                </div>
+                            </div>
+                             <% }) %>
+                        </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="pagination-area mt-30 mb-50">
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination justify-content-start">
+                    <li class="page-item active"><a class="page-link" href="#">01</a></li>
+                    <li class="page-item"><a class="page-link" href="#">02</a></li>
+                    <li class="page-item"><a class="page-link" href="#">03</a></li>
+                    <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+                    <li class="page-item"><a class="page-link" href="#">16</a></li>
+                    <li class="page-item">
+                      <a class="page-link" href="#"
+                        ><i class="material-icons md-chevron_right"></i
+                      ></a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+        </section>
+    </main>    
+</body>
+</html>
+
+<script>
+    function addToCart(proId) {
+        console.log(proId);
+        $.ajax ({
+            url: `/add-to-cart/${proId}`,
+            method: 'get',
+            success: (response) => {
+                if(response.status) {
+                    Toastify({
+                        text: "ADDED TO YOUR CART",
+                        duration: 3000,
+                        gravity: "bottom",
+                        position: "center",
+                        style: {
+                            background: "linear-gradient(to right, #00b09b, #96c93d)",
+                        }
+                        }).showToast();
+                       
+                }
+            }
+        })
+    }
+
+
+    function addToWish(proId) {
+            // console.log("api vall");
+            console.log(proId,"llllll");
+            
+            $.ajax ({
+                url: `/wishlist/${proId}`,
+                method: 'get',
+                success: (response) => {
+                   
+                    console.log(response);
+                    if(response.status) {
+                        // alert("wowww")
+                        // location.reload();
+                        Toastify({
+                            text: "ADDED TO YOUR WISHLIST",
+                            duration: 3000,
+                            gravity: "bottom",
+                            position: "center",
+                            style: {
+                                background: "linear-gradient(to right, #00b09b, #96c93d)",
+                            }
+                            }).showToast();
+                           
+                    }
+                }
+            })
+        }
+    
+</script>

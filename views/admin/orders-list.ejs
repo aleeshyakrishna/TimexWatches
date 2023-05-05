@@ -1,0 +1,80 @@
+<div class="container-fluid">
+  <section class="content-main container w-100">
+    <div class="content-header">
+      <div>
+        <h2 class="content-title card-title">Order List</h2>
+      </div>
+    </div>
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <% if(response.length==0){%>
+            <div class="d-flex justify-content-center">
+              <img src="/assets/imgs/banners/empty-cart-1546860808" alt="" />
+            </div>
+            <%} else{%>
+            <thead>
+              <tr>
+                <th># Order ID</th>
+                <th scope="col">User Name</th>
+                <th scope="col">Order Date</th>
+                <th scope="col">Order Status</th>
+                <th scope="col">Payment Method</th>
+                <th scope="col" class="text-end">Option</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% response.forEach(function(response) { %>
+              <tr>
+                <td><%=response._id%></td>
+                <td><b><%=response.details.username%></b></td>
+                <td><%=getDate(response.date)%></td>
+                <td>
+                  <span class="badge rounded-pill alert-warning"
+                    ><%=response.status%>
+                  </span>
+                </td>
+                <td><%=response. paymentMethod%></td>
+                
+                <td class="text-end">
+                  <a
+                  href="/admin/order-details?orderid=<%=response._id%>"
+                    class="btn btn-md rounded font-sm"
+                    >Detail</a
+                  >
+                </td>
+               
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+          <%}%>
+        </div>
+        <!-- table-responsive //end -->
+      </div>
+      <!-- card-body end// -->
+    </div>
+    <!-- card end// -->
+    <div class="pagination-area mt-30 mb-50">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-start">
+          <li class="page-item active"><a class="page-link" href="#">01</a></li>
+          <li class="page-item"><a class="page-link" href="#">02</a></li>
+          <li class="page-item"><a class="page-link" href="#">03</a></li>
+          <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+          <li class="page-item"><a class="page-link" href="#">16</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#"
+              ><i class="material-icons md-chevron_right"></i
+            ></a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </section>
+  <!-- content-main end// -->
+</div>
+
+
+

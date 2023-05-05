@@ -1,0 +1,117 @@
+
+ <div class="main_container container">
+    <% if(response.length==0){%>
+     <div class="d-flex justify-content-center align-items-center">
+       <h2 class="">No Orders Available</h2>
+     </div>
+     <%}else{%>
+     <div class="d-flex justify-content-center m-4">
+        <button style="color: white; margin-right: 1cm;" id="download" class=" mt-15 btn btn-suuces bg-danger" >Download sales report</button>
+        
+    
+     <div>
+ 
+ <form action="/admin/sales_report" method="POST">
+   <div> <input type="date" name="startdate" id="startdate"></div>
+   <div><input type="date" name="enddate" id="enddate"></div>
+   
+ </div> 
+   <div class="ml-3 my-auto"><button class="btn btn-primary " type="submit">submit</button></div>
+    
+    <!-- <input class="ms-1" type="text" name="daterange" value="01/01/2022 - 12/01/2023"/> -->
+ </form>
+    
+     </div>
+ <table class="table table-striped" id="container_content">
+     <thead>
+       <tr>
+         <th scope="col">OrderId</th>
+         <th scope="col">User Name</th>
+         <th scope="col">Item Name</th>
+         <th scope="col">Quantity</th>
+         <th scope="col">Price</th>
+         <th scope="col">Payment Method</th>
+         <th scope="col">Delivered Date</th>
+       </tr>
+     </thead>
+     <tbody>
+        <% response.forEach(function(data,index){ %>
+       <tr>
+        <td><%= index+1 %></td>
+        <td><%= data.date %></td>
+        <td><b><%= data._id%></b></td>
+        <td><%= data.result.username%></td>
+        <td><%=data.totalAmount%></td>
+        <td><%=data.paymentMethod%></td>
+        <td></td>
+       </tr>
+       <%})%>
+      
+     </tbody>
+   </table>
+ </div>
+ <br>
+ <br>
+ <hr>
+ <hr>
+ <%}
+ %>
+ 
+ </div>
+
+<div class="pagination-area mt-30 mb-50">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-start">
+          <li class="page-item active"><a class="page-link" href="#">01</a></li>
+          <li class="page-item"><a class="page-link" href="#">02</a></li>
+          <li class="page-item"><a class="page-link" href="#">03</a></li>
+          
+          <li class="page-item">
+            <a class="page-link" href="#"
+              ><i class="material-icons md-chevron_right"></i
+            ></a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+ 
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+ <script>
+
+//  $(document).ready(function ($) {
+//          $(document).on('click', '.btn_print', function (event) {
+//              event.preventDefault();
+//              var element = document.getElementById('container_content');
+//              let randomNumber = Math.floor(Math.random() * (10000000000 - 1)) + 1;
+//              var opt = {
+//                  margin: 0,
+//                  filename: 'SalesReport' + randomNumber + '.pdf',
+//                  html2canvas: { scale: 10 },
+//                  jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+//              };
+//              html2pdf().set(opt).from(element).save();
+//          });
+//      });
+
+
+     window.onload=function(){
+    document.getElementById('download').addEventListener("click",()=>{
+         let invoice= this. document.getElementById('container_content')
+         console.log(invoice);
+         console.log(window);
+         html2pdf().from(invoice).save()
+    })
+}
+
+    //  function export_data() {
+    //      let data = document.getElementById('container_content');
+    //      var fp = XLSX.utils.table_to_book(data, { sheet: 'vishal' });
+    //      XLSX.write(fp, {
+    //          bookType: 'xlsx',
+    //          type: 'base64'
+    //      });
+    //      XLSX.writeFile(fp, 'test.xlsx');
+    //  }
+ </script>
