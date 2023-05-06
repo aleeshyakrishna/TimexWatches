@@ -177,34 +177,31 @@
   </body>
   
   <script>
-
 function updateStatus(status, id) {
   swal({
     title: "Are you sure?",
     text: "Do you want to cancel/return this order?",
     icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, cancel/return it!",
-  }).then((result) => {
-    if (result) {
+    buttons: {
+      cancel: "No",
+      confirm: "Yes, cancel/return it!",
+    },
+    dangerMode: true,
+  }).then((confirmed) => {
+    if (confirmed) {
       swal({
         title: "Reason for cancellation/return",
-        input: "text",
+        content: "input",
         inputPlaceholder: "Enter reason here...",
-        showCancelButton: true,
-        confirmButtonText: "Submit",
-        cancelButtonText: "Cancel",
-        inputValidator: (value) => {
-          if (!value) {
-            return "Please enter a reason";
-          }
+        buttons: {
+          cancel: "Cancel",
+          confirm: "Submit",
         },
-      }).then((result) => {
-        if (result) {
+        closeOnClickOutside: false,
+        closeOnEsc: false,
+      }).then((reason) => {
+        if (reason) {
           // User confirmed and provided a reason, make the Ajax request
-          const reason = result.value;
           $.ajax({
             url: `/order-cancel/${id}`,
             method: "post",
@@ -220,11 +217,16 @@ function updateStatus(status, id) {
               }
             },
           });
+        } else {
+          // User clicked cancel or didn't provide a reason
+          console.log("Reason not provided or canceled");
         }
       });
     }
   });
 }
+
+
 
 
     // function updateStatus(status,id){
