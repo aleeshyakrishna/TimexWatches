@@ -492,8 +492,7 @@ VerifyOtp: (req, res) => {
   
 
   postPlaceOrder: async (req, res) => {
-    console.log(req.body, "this is req.body");
-   
+    console.log(req.body,"req.....................body");
       userId = req.session.user._id;
        let carts = await userhelpers.getCartProductList(req.session.user._id);
     let total = await userhelpers.getTotalAmount(userId);
@@ -553,7 +552,7 @@ VerifyOtp: (req, res) => {
 
     let userId = req.session.user._id;
     let user = req.session.user.username;
-    let count = userhelpers.countCoupon(userId);
+     userhelpers.countCoupon(userId);
     let wishcount = await userhelpers.getWishCount(req.session.user._id);
     let cartCount = await userhelpers.getCartCount(userId);
     res.render("user/order-success", {

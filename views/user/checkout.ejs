@@ -164,6 +164,9 @@
 				data-toggle="modal" data-target="#exampleModal">
 				Add address
 			</button>
+			
+			<form action="/order-place" method="post" id="checkout-form">
+				
 			<% address.forEach(function(data) { %>
 				<div class=" form-check">
 					<div class="card"></div>
@@ -194,7 +197,6 @@
 				<div class="divider mt-50 mb-50"></div>
 			</div>
 		</div> -->
-			<form action="/order-place" method="post" id="checkout-form">
 				<div class="row">
 
 
@@ -480,6 +482,8 @@
 			type: 'post',
 
 			data: $('#checkout-form').serialize(),
+					
+			
 
 			success: (response) => {
 

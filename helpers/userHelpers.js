@@ -544,60 +544,116 @@ getsubTotal: (userId) => {
     });
   },
   //kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
+  // countCoupon: (user) => {
+  //   db.coupon.countDocuments({}, function (err, count) {
+  //     if (err) {
+  //       console.log(err);
+  //     } else {
+  //       const randomIndex = Math.floor(Math.random() * count);
+
+  //       db.coupon
+  //         .findOne()
+  //         .skip(randomIndex)
+  //         .exec(function (err, result) {
+  //           if (err) {
+  //             console.log(err);
+  //           }
+
+  //           console.log(result,"this is result")
+
+  //           const codeLength = 4;
+  //           const code = crypto
+  //             .randomBytes(codeLength)
+  //             .toString("hex")
+  //             .toUpperCase();
+  //           // console.log(
+  //           //   code,
+  //           //   "this is crypto codeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+  //           // );
+
+  //           const createDate = Date.now();
+  //           let exp = new Date(createDate);
+  //           exp.setDate(exp.getDate() + 10);
+
+        
+
+  //           db.userCoupon.create({
+  //             couponId: result._id,
+  //             userId: user,
+  //             couponCode: result.couponName,
+  //             discount: result.discount,
+  //             used: false,
+  //             code: code,
+  //             createDate: createDate.toLocaleString(),
+  //             exp: exp.toLocaleString(),
+  //           });
+  //         });
+  //     }
+  //   });
+  // },
+
   countCoupon: (user) => {
-    db.coupon.countDocuments({}, function (err, count) {
-      if (err) {
-        console.log(err);
-      } else {
-        const randomIndex = Math.floor(Math.random() * count);
-
-        db.coupon
-          .findOne()
-          .skip(randomIndex)
-          .exec(function (err, result) {
-            if (err) {
-              console.log(err);
-            }
-
-            const codeLength = 4;
-            const code = crypto
-              .randomBytes(codeLength)
-              .toString("hex")
-              .toUpperCase();
-            console.log(
-              code,
-              "this is crypto codeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
-            );
-
-            const createDate = Date.now();
-            let exp = new Date(createDate);
-            exp.setDate(exp.getDate() + 10);
-
-            let document = {
-              couponId: result._id,
-              userId: user,
-              couponCode: result.couponName,
-              discount: result.discount,
-              used: false,
-              code: code,
-              createDate: createDate.toLocaleString(),
-              exp: exp.toLocaleString(),
-            };
-
-            db.userCoupon.create({
-              couponId: result._id,
-              userId: user,
-              couponCode: result.couponName,
-              discount: result.discount,
-              used: false,
-              code: code,
-              createDate: createDate.toLocaleString(),
-              exp: exp.toLocaleString(),
+    try {
+      db.coupon.countDocuments({}, function (err, count) {
+        if (err) {
+          console.log(err);
+        } else {
+          if (count === 0) {
+            console.log('No coupons found in the collection');
+            return;
+          }
+  
+          const randomIndex = Math.floor(Math.random() * count);
+  
+          db.coupon
+            .findOne()
+            .skip(randomIndex)
+            .exec(function (err, result) {
+              if (err) {
+                console.log(err);
+              } else {
+                if (!result) {
+                  console.log('No coupon found');
+                  return;
+                }
+  
+                console.log(result, "this is result");
+  
+                const codeLength = 4;
+                const code = crypto
+                  .randomBytes(codeLength)
+                  .toString("hex")
+                  .toUpperCase();
+                // console.log(
+                //   code,
+                //   "this is crypto codeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+                // );
+  
+                const createDate = Date.now();
+                let exp = new Date(createDate);
+                exp.setDate(exp.getDate() + 10);
+  
+                db.userCoupon.create({
+                  couponId: result._id,
+                  userId: user,
+                  couponCode: result.couponName,
+                  discount: result.discount,
+                  used: false,
+                  code: code,
+                  createDate: createDate.toLocaleString(),
+                  exp: exp.toLocaleString(),
+                });
+              }
             });
-          });
-      }
-    });
+        }
+      });
+    } catch (error) {
+      console.log(error);
+      // Handle the error here (e.g., return an error response, throw an exception, etc.)
+    }
   },
+  
+  
 
   getCartProductList: (userId) => {
     return new Promise(async (resolve, reject) => {
@@ -647,6 +703,7 @@ getsubTotal: (userId) => {
             },
           ])
           .then((cart) => {
+            console.log(cart,"this is aggregation result.........")
             resolve(cart);
           });
       } catch (error) {
@@ -823,8 +880,8 @@ getsubTotal: (userId) => {
   placeOrder: (order, carts, total, userId) => {
    
     return new Promise((resolve, reject) => {
-      // console.log(order, "this is order");
-      // console.log(order.flexRadioDefault, ":::LLLLLLLLLL:::::::::");
+      console.log(order, "this is order");
+      console.log(order.flexRadioDefault, ":::LLLLLLLLLL:::::::::");
 
       const cartId = order.flexRadioDefault;
 
@@ -835,6 +892,7 @@ getsubTotal: (userId) => {
           var cartAddress = user.address.find(
             (a) => a._id.toString() === cartId
           );
+          console.log(cartId,"caaaaaaaaaaaaartid")
           console.log(cartAddress,"}{{{{{{{{{{{}}}}}}}}}}}}}");
           let status = order["paymentMethod"] === "COD" ? "placed" : "pending";
           db.order
