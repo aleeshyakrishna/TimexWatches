@@ -880,8 +880,6 @@ getsubTotal: (userId) => {
   placeOrder: (order, carts, total, userId) => {
    
     return new Promise((resolve, reject) => {
-      console.log(order, "this is order");
-      console.log(order.flexRadioDefault, ":::LLLLLLLLLL:::::::::");
 
       const cartId = order.flexRadioDefault;
 
@@ -892,8 +890,6 @@ getsubTotal: (userId) => {
           var cartAddress = user.address.find(
             (a) => a._id.toString() === cartId
           );
-          console.log(cartId,"caaaaaaaaaaaaartid")
-          console.log(cartAddress,"}{{{{{{{{{{{}}}}}}}}}}}}}");
           let status = order["paymentMethod"] === "COD" ? "placed" : "pending";
           db.order
             .create({
@@ -916,8 +912,10 @@ getsubTotal: (userId) => {
               date: new Date(),
             })
             .then(async (response) => {
-              if (response) {
-                await db.cart.deleteMany({ userId: ObjectId(userId) });
+              console.log(response,"this is the response.........");
+              if (response.status=='placed') {
+                console.log(userId,"this is user id")
+                await db.cart.deleteMany({ userid: ObjectId(userId) });
               }
 
               resolve(response._id);
