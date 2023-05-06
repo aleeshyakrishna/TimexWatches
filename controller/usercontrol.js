@@ -102,6 +102,7 @@ module.exports = {
       var userId = req.session.user._id;
 
       userhelpers.listProductShop().then((response) => {
+        console.log(response,"this is prouctsssssssssssss")
         adminhelpers.findAllcategories().then(async (cat) => {
          
           let cartCount = await userhelpers.getCartCount(userId);
@@ -442,17 +443,29 @@ VerifyOtp: (req, res) => {
   //   }
   // },
 
-  changeQuantity: (req, res) => {
+  changeQuantity: async(req, res) => {
+    console.log(req.body,'dddddddddddddddd');
+    let stock;
+    await userhelpers.zoomlistProductShop(req.body.product).then((response)=>{
+      console.log(response,'responseessssss');
+      stock = response.Quantity
+      console.log(response.Quantity,'quantititityyy');
+    })
+    console.log(req.body.quantity,'alalalalalal');
 
-
-    userhelpers.change_Quantity(req.body).then(async (response) => {
+    if(req.body.quantity>=stock){
+      console.log('out of stock!');
+      res.json({stock:true})
+    }else{
+      userhelpers.change_Quantity(req.body).then(async (response) => {
         // response.total = await userhelpers.getsubTotal(req.session.user._id)
         // console.log(response,"subtotal respoonse................");
         res.json(response )
-
     }).catch((error)=>{
         res.status(500)
        })
+    }
+    
     },
 
   placeOrder: (req, res) => {
@@ -687,12 +700,26 @@ VerifyOtp: (req, res) => {
     console.log(req.body, "sagar alias jaaaaaaaaaaaaackie");
     console.log(req.params.id, "bbbbbbbbbbbb");
     // let status= await userhelpers
+
     let orderStatus = await userhelpers.CancelOrderItem(
       req.params.id,
       req.body.status
     );
     if (orderStatus) {
+      if(req.body.status=='Returned'){
+        userhelpers.getOrderProducts(req.params.id).then((response)=>{
+          console.log(response[0].products,'enthokkeyondddd');
+          const products = response[0].products
+          products.forEach( async element => {
+            const proName = element.Name
+            const stock = element.Quantity
+            await userhelpers.updateStock(proName,stock)
+          });
+        })
+      }
       res.json({ status: true });
+
+
     }
   },
 
@@ -716,10 +743,11 @@ VerifyOtp: (req, res) => {
   search: async(req, res) => {        
     const searchValue = req.query.search;
     
-    if(req.session.loggedIn) {
-        let userId=req.session.user._id;
-        let user=req.session.user.username;
-        let products;
+    if(req.session.user) {
+        var userId=req.session.user._id;
+        var user=req.session.user.username;
+        
+        console.log(userId,user,"ffffffffffffffffff");
       
         let wishcount = await userhelpers.getWishCount(userId);
         let cartCount = await userhelpers.getCartCount(userId);
@@ -728,11 +756,11 @@ VerifyOtp: (req, res) => {
        await userhelpers.search({ search: searchValue }).then((response) => {
             if (response.length > 0) {
               res.render('user/shop',
-               {userHeader:true,shop:true,
+               {loginheader:true,shop:true,
                 response,user,cartCount,
                 wishcount,cat,userName:user})
             } else {
-            res.render('user/searchEmpty', {userHeader:true,shop:false,
+            res.render('user/searchEmpty', {loginheader:true,shop:false,
               user,cartCount,wishcount,userName:user})
             }
           }).catch((err) => {
@@ -747,9 +775,9 @@ VerifyOtp: (req, res) => {
         let cat= await adminhelpers.findAllcategories()
 
             if (response.length > 0) {
-              res.render('user/shop', {userHeader:false,response,cat,shop:true})
+              res.render('user/shop', {loginheader: false,response,cat,shop:true})
             } else {
-            res.render('user/searchEmpty', {userHeader:false,response,shop:false})
+            res.render('user/searchEmpty', {loginheader: false,response,shop:false})
             }
           }).catch((err) => {
             res.json({

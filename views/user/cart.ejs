@@ -203,8 +203,9 @@ function cartQuantity(cartId, prodId, Price, count) {
     }, 
     success: (response) => {
 
-      if (response.stock == 'Full') {
+      if (response.stock) {
         console.log('out of stock');
+        swal("Oops!", "Out of Stock!", "error");  
 
       }else{
         if(response.stock=='Full'){

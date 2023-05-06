@@ -692,7 +692,8 @@ getsubTotal: (userId) => {
                  *   include or exclude.
                  */
                 {
-                  _id: 0,
+                  _id: 1,
+                  proId:"$proDetails._id",
                   Name: "$proDetails.Productname",
                   Discription: "$proDetails.ProductDescription",
                   Quantity: "$products.quantity",
@@ -925,7 +926,7 @@ getsubTotal: (userId) => {
   // },
 
   placeOrder: (order, carts, total, userId) => {
-    console.log('iam hereeeeeeeeeee');
+    console.log(carts,'iam hereeeeeeeeeee');
     return new Promise((resolve, reject) => {
       const cartId = order.flexRadioDefault;
   
@@ -965,8 +966,16 @@ getsubTotal: (userId) => {
             .then(async (response) => {
               console.log(response, "this is the response.........");
               if (response) {
+
                 console.log(userId, "this is user id");
                 await db.cart.deleteMany({ userid: ObjectId(userId) });
+               await carts.forEach( async element => {
+                  const proId = element.proId
+                  console.log(proId,'dddddd');
+                  const stock = element.Quantity
+                  console.log(-stock,'eeeeeeeeeeeeeeeeee');
+                  await db.products.updateOne({_id:proId},{$inc:{Quantity:-stock}})
+                });
               }
               resolve(response._id);
             })
@@ -1188,6 +1197,17 @@ getsubTotal: (userId) => {
         reject(err);
       }
     });
+  },
+  updateStock:(proName,stock)=>{
+    return new Promise(async(resolve,reject)=>{
+      try{
+        let products = await db.products.updateOne({Productname:proName},{$inc:{Quantity:stock}})
+        resolve(products)
+      }catch(err){
+        console.error(err);
+        reject(err);
+      }
+    })
   }
 
   

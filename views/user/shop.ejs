@@ -1,4 +1,21 @@
 
+<style>
+    .disabled {
+        pointer-events: none;
+        opacity: 0.8;
+        background-color: aliceblue
+        /* optional - to indicate the element is disabled */
+    }
+.text-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        font-weight: bold;
+    }
+    
+</style>
+
 
 <body>
     <!-- Quick view -->
@@ -42,38 +59,79 @@
                        
                         <div class="row product-grid-3">
                             <% response.forEach(function(response,index) { %>
-                           
-                            <div class="col-lg-4 col-md-4 col-12 col-sm-6">
-                                <div class="product-cart-wrap mb-30">
-                                    <div class="product-img-action-wrap">
-                                        <div class="product-img product-img-zoom">
-                                            <a href="/zoomView/<%= response._id %>">
-                                                <img class="default-img" src="/uploads/<%= response.Image[0] %>" alt="">
-                                                <!-- <img class="hover-img" src="assets/imgs/shop/product-7-1.jpg" alt=""> -->
-                                            </a>
-                                        </div>
-                                        <div class="product-action-1">
-                                            <a aria-label="Quick view" href="/zoomView/<%= response._id %>" class="action-btn hover-up" >
-                                            <i class="fi-rs-search"></i></a>
-                                            <a aria-label="Add To Wishlist" class="action-btn hover-up" onclick="addToWish('<%= response._id %>')"><i class="fi-rs-heart"></i></a>
-                                        </div>
-                                        <div class="product-badges product-badges-position product-badges-mrg">
-                                            
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-category">
-                                            <a href="/shop-product"><%=response.category%></a>
-                                        </div>
-                                        <h2><a href="/shop-product"><%=response.Productname%></a></h2>
-                                       
-                                        <div class="product-price">
-                                            <span>₹ <%=response.Price%></span>
-                                        </div >
+                                <% if(response.Quantity<1){%>
+                                    <div class="col-lg-4 col-md-4 col-12 col-sm-6 disabled" >
+                                        <div class="product-cart-wrap mb-30 ">
+                                            <div class="product-img-action-wrap">
+                                                <div class="product-img product-img-zoom">
+                                                    <span class="text-center text-danger" style="font-weight: bold;">
+                                                        <div class="otofstock" style="position: absolute; top: 0; text-align: center; top: 50%;background-color: beige;">OUT OF STOCK
+                                                        </div>
+                                                    </span>
+                                                    <a href="/zoomView/<%= response._id %>">
+                                                        <img class="default-img" src="/uploads/<%= response.Image[0] %>" alt="">
+                                                        <!-- <img class="hover-img" src="assets/imgs/shop/product-7-1.jpg" alt=""> -->
+                                                        
+                                                    </a>
 
+                                                </div>
+                                                <div class="product-action-1">
+                                                    <a aria-label="Quick view" href="/zoomView/<%= response._id %>" class="action-btn hover-up" >
+                                                    <i class="fi-rs-search"></i></a>
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" onclick="addToWish('<%= response._id %>')"><i class="fi-rs-heart"></i></a>
+                                                </div>
+                                                <div class="product-badges product-badges-position product-badges-mrg">
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="product-content-wrap">
+                                                <div class="product-category">
+                                                    <a href="/shop-product"><%=response.category%></a>
+                                                </div>
+                                                <h2><a href="/shop-product"><%=response.Productname%></a></h2>
+                                               
+                                                <div class="product-price">
+                                                    <span>₹ <%=response.Price%></span>
+                                                </div >
+        
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                <%}else{%>
+                                    
+                                    <div class="col-lg-4 col-md-4 col-12 col-sm-6 " >
+                                        <div class="product-cart-wrap mb-30 ">
+                                            <div class="product-img-action-wrap">
+                                                <div class="product-img product-img-zoom">
+                                                    <a href="/zoomView/<%= response._id %>">
+                                                        <img class="default-img" src="/uploads/<%= response.Image[0] %>" alt="">
+                                                        <!-- <img class="hover-img" src="assets/imgs/shop/product-7-1.jpg" alt=""> -->
+                                                    </a>
+                                                </div>
+                                                <div class="product-action-1">
+                                                    <a aria-label="Quick view" href="/zoomView/<%= response._id %>" class="action-btn hover-up" >
+                                                    <i class="fi-rs-search"></i></a>
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" onclick="addToWish('<%= response._id %>')"><i class="fi-rs-heart"></i></a>
+                                                </div>
+                                                <div class="product-badges product-badges-position product-badges-mrg">
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="product-content-wrap">
+                                                <div class="product-category">
+                                                    <a href="/shop-product"><%=response.category%></a>
+                                                </div>
+                                                <h2><a href="/shop-product"><%=response.Productname%></a></h2>
+                                               
+                                                <div class="product-price">
+                                                    <span>₹ <%=response.Price%></span>
+                                                </div >
+        
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <%} %>
+                            
                              <% }) %>
                         </div>
                         </div>
