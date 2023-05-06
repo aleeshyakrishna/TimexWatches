@@ -486,11 +486,7 @@
 			
 
 			success: (response) => {
-				if(!res.status){
-					swal({
-						text: 'please add your address!'
-					})
-				}
+				
 				if (response.codstatus) {
 					location.href = '/order-success'
 				} else {

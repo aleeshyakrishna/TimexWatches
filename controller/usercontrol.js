@@ -497,7 +497,7 @@ VerifyOtp: (req, res) => {
        let carts = await userhelpers.getCartProductList(req.session.user._id);
     let total = await userhelpers.getTotalAmount(userId);
     // userhelpers.coupenCheck()
-
+    
     let value = total[0].totalRevenue;
     userhelpers
       .placeOrder(req.body, carts, value, req.session.user._id)

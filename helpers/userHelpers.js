@@ -925,6 +925,7 @@ getsubTotal: (userId) => {
   // },
 
   placeOrder: (order, carts, total, userId) => {
+    console.log('iam hereeeeeeeeeee');
     return new Promise((resolve, reject) => {
       const cartId = order.flexRadioDefault;
   
@@ -963,7 +964,7 @@ getsubTotal: (userId) => {
             })
             .then(async (response) => {
               console.log(response, "this is the response.........");
-              if (response.status) {
+              if (response) {
                 console.log(userId, "this is user id");
                 await db.cart.deleteMany({ userid: ObjectId(userId) });
               }
