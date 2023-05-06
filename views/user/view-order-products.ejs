@@ -113,7 +113,7 @@
               <div class="col-lg-1"></div>
               <div class="col-lg-4">
 
-                <p id="statusId">Order Status: <%= order[0].status %> </p>
+                <p id="statusId" >Order Status:  <span style="color: red; font-size:larger ;"><%= order[0].status %></span> </p>
                 <hr>
                 
                 <div class="box shadow-sm bg-light">
@@ -214,6 +214,8 @@ function updateStatus(status, id) {
                 console.log("true");
                 $("#statusId").html(status);
                 $("#updateItem").remove();
+
+                location.reload()
               }
             },
           });
@@ -224,6 +226,7 @@ function updateStatus(status, id) {
       });
     }
   });
+  
 }
 
 
