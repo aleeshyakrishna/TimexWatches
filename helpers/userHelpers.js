@@ -877,52 +877,110 @@ getsubTotal: (userId) => {
     });
   },
 
-  placeOrder: (order, carts, total, userId) => {
+  // placeOrder: (order, carts, total, userId) => {
    
+  //   return new Promise((resolve, reject) => {
+
+  //     const cartId = order.flexRadioDefault;
+
+  //     db.user
+  //       .findById(userId)
+  //       .select("address")
+  //       .then((user) => {
+  //         var cartAddress = user.address.find(
+  //           (a) => a._id.toString() === cartId
+  //         );
+  //         let status = order["paymentMethod"] === "COD" ? "placed" : "pending";
+  //         db.order
+  //           .create({
+  //             deliveryDetails: {
+  //               name:cartAddress.name,
+  //               address: cartAddress.firstLine,
+  //               post:cartAddress.secondLine,
+  //               city:cartAddress.city,
+  //               mobile: cartAddress.contactNumber,
+  //               pincode: cartAddress.pincode
+
+
+  //             },
+  //             userId: ObjectId(userId),
+  //             paymentMethod: order["paymentMethod"],
+  //             products: carts,
+
+  //             status: status,
+  //             totalAmount: total,
+  //             date: new Date(),
+  //           })
+  //           .then(async (response) => {
+  //             console.log(response,"this is the response.........");
+  //             if (response.status=='placed') {
+  //               console.log(userId,"this is user id")
+  //               await db.cart.deleteMany({ userid: ObjectId(userId) });
+  //             }
+
+  //             resolve(response._id);
+  //           });
+  //       });
+  //   });
+  // },
+
+  placeOrder: (order, carts, total, userId) => {
     return new Promise((resolve, reject) => {
-
       const cartId = order.flexRadioDefault;
-
+  
       db.user
         .findById(userId)
         .select("address")
         .then((user) => {
-          var cartAddress = user.address.find(
+          if (!user) {
+            throw new Error("User not found");
+          }
+  
+          const cartAddress = user.address.find(
             (a) => a._id.toString() === cartId
           );
-          let status = order["paymentMethod"] === "COD" ? "placed" : "pending";
+          if (!cartAddress) {
+            throw new Error("Cart address not found");
+          }
+  
+          const status = order["paymentMethod"] === "COD" ? "placed" : "pending";
           db.order
             .create({
               deliveryDetails: {
-                name:cartAddress.name,
+                name: cartAddress.name,
                 address: cartAddress.firstLine,
-                post:cartAddress.secondLine,
-                city:cartAddress.city,
+                post: cartAddress.secondLine,
+                city: cartAddress.city,
                 mobile: cartAddress.contactNumber,
-                pincode: cartAddress.pincode
-
-
+                pincode: cartAddress.pincode,
               },
               userId: ObjectId(userId),
               paymentMethod: order["paymentMethod"],
               products: carts,
-
               status: status,
               totalAmount: total,
               date: new Date(),
             })
             .then(async (response) => {
-              console.log(response,"this is the response.........");
-              if (response.status=='placed') {
-                console.log(userId,"this is user id")
+              console.log(response, "this is the response.........");
+              if (response.status) {
+                console.log(userId, "this is user id");
                 await db.cart.deleteMany({ userid: ObjectId(userId) });
               }
-
               resolve(response._id);
+            })
+            .catch((error) => {
+              console.log(error);
+              reject(error);
             });
+        })
+        .catch((error) => {
+          console.log(error);
+          reject(error);
         });
     });
   },
+  
 
   
 

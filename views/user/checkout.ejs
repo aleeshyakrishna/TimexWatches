@@ -166,7 +166,7 @@
 			</button>
 			
 			<form action="/order-place" method="post" id="checkout-form">
-				
+
 			<% address.forEach(function(data) { %>
 				<div class=" form-check">
 					<div class="card"></div>
@@ -486,7 +486,11 @@
 			
 
 			success: (response) => {
-
+				if(!res.status){
+					swal({
+						text: 'please add your address!'
+					})
+				}
 				if (response.codstatus) {
 					location.href = '/order-success'
 				} else {
