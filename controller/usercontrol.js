@@ -102,7 +102,7 @@ module.exports = {
       var userId = req.session.user._id;
 
       userhelpers.listProductShop().then((response) => {
-        console.log(response,"this is prouctsssssssssssss")
+        console.log(response,"this is prouctss")
         adminhelpers.findAllcategories().then(async (cat) => {
          
           let cartCount = await userhelpers.getCartCount(userId);
@@ -505,15 +505,14 @@ VerifyOtp: (req, res) => {
   
 
   postPlaceOrder: async (req, res) => {
-    console.log(req.body,"req.....................body");
-      userId = req.session.user._id;
-       let carts = await userhelpers.getCartProductList(req.session.user._id);
+ 
+     let userId = req.session.user._id;
+       let carts = await userhelpers.getCartProductList(userId);
     let total = await userhelpers.getTotalAmount(userId);
-    // userhelpers.coupenCheck()
     
     let value = total[0].totalRevenue;
     userhelpers
-      .placeOrder(req.body, carts, value, req.session.user._id)
+      .placeOrder(req.body, carts, value, userId)
       .then((orderID) => {
         if (req.body["paymentMethod"] == "COD") {
           res.json({ codstatus: true });

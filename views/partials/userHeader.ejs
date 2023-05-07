@@ -1,248 +1,202 @@
+
+
+  
 <header class="header-area header-style-3 header-height-2">
-    <div class="header-top header-top-ptb-1 d-none d-lg-block">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-xl-3 col-lg-4">
-            <div class="header-info">
+  <div class="header-top header-top-ptb-1 d-none d-lg-block">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-xl-3 col-lg-4">
+          <div class="header-info">
+            <ul>
+              <li>
+                <i class="fi-rs-smartphone"></i>
+                <a href="#">(+01) - 2345 - 6789</a>
+              </li>
+              <li>
+                <i class="fi-rs-marker"></i
+                ><a href="page-contact.html">Our location</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-xl-6 col-lg-4">
+          <div class="text-center">
+            <div id="news-flash" class="d-inline-block">
               <ul>
                 <li>
-                  <i class="fi-rs-smartphone"></i>
-                  <a href="#">(+01) - 2345 - 6789</a>
+                  Get great devices up to 50% off
+                  <a href="shop-grid-right.html">View details</a>
                 </li>
+                <li>Supper Value Deals - Save more with coupons</li>
                 <li>
-                  <i class="fi-rs-marker"></i
-                  ><a href="page-contact.html">Our location</a>
+                  Trendy 25silver jewelry, save up 35% off today
+                  <a href="shop-grid-right.html">Shop now</a>
                 </li>
               </ul>
             </div>
           </div>
-          <div class="col-xl-6 col-lg-4">
-            <div class="text-center">
-              <div id="news-flash" class="d-inline-block">
-                <ul>
+        </div>
+        <div class="col-xl-3 col-lg-4">
+          <div class="header-info header-info-right">
+            <ul>
+              <li>
+                <a class="language-dropdown-active" href="#">
+                  <i class="fi-rs-world"></i> English
+                  <i class="fi-rs-angle-small-down"></i
+                ></a>
+                <ul class="language-dropdown">
                   <li>
-                    Get great devices up to 50% off
-                    <a href="shop-grid-right.html">View details</a>
+                    <a href="#"
+                      ><img
+                        alt=""
+                      />हिंदी</a
+                    >
                   </li>
-                  <li>Supper Value Deals - Save more with coupons</li>
                   <li>
-                    Trendy 25silver jewelry, save up 35% off today
-                    <a href="shop-grid-right.html">Shop now</a>
+                    <a href="#"
+                      ><img
+                        alt=""
+                      />മലയാളം</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#"
+                      ><img
+                        alt=""
+                      />Pусский</a
+                    >
                   </li>
                 </ul>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-lg-4">
-            <div class="header-info header-info-right">
-              <ul>
-                <li>
-                  <a class="language-dropdown-active" href="#">
-                    <i class="fi-rs-world"></i> English
-                    <i class="fi-rs-angle-small-down"></i
-                  ></a>
-                  <ul class="language-dropdown">
-                    <li>
-                      <a href="#"
-                        ><img
-                          alt=""
-                        />हिंदी</a
-                      >
-                    </li>
-                    <li>
-                      <a href="#"
-                        ><img
-                          alt=""
-                        />മലയാളം</a
-                      >
-                    </li>
-                    <li>
-                      <a href="#"
-                        ><img
-                          alt=""
-                        />Pусский</a
-                      >
-                    </li>
-                  </ul>
-                </li>
+              </li>
 
 
-                <div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <% if(locals.loginheader){%>
-                      <%=userName%>
-                      <%} else{%>
-                        Account
-                        <%}
-                        %>
-                    <!-- Dropdown -->
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-
-                    <% if(locals.loginheader){%>
-                      <a class="dropdown-item" href="/profile" style="color: black;" >MY ACCOUNT</a>
-                    <hr>
-                    <a class="dropdown-item" href="/orders" style="color: black;">ORDERS</a>
-                    <hr>
-                      <%}else{%>
-                        <a href="/login" class="dropdown-item" style="color: black;">CONTACT US</a>
-                        <hr>
-                        <a href="/signup" class="dropdown-item" style="color: black;">SIGNUP</a>
-                        <hr>
-                        <%}
-                    %>
-                    
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <% if(locals.loginheader){%>
-                    <a href="/logout" class="dropdown-item " style="color: black;">LOGOUT</a>
+                    <%=userName%>
+                    <%} else{%>
+                      Account
+                      <%}
+                      %>
+                  <!-- Dropdown -->
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+
+                  <% if(locals.loginheader){%>
+                    <a class="dropdown-item" href="/profile" style="color: black;" >MY ACCOUNT</a>
+                  <hr>
+                  <a class="dropdown-item" href="/orders" style="color: black;">ORDERS</a>
+                  <hr>
                     <%}else{%>
-                      <a href="/login" class="dropdown-item" style="color: black;">LOGIN</a>
+                      <a href="/login" class="dropdown-item" style="color: black;">CONTACT US</a>
+                      <hr>
+                      <a href="/signup" class="dropdown-item" style="color: black;">SIGNUP</a>
+                      <hr>
                       <%}
                   %>
-                    
-                  </div>
-                </div>
-              
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="header-middle header-middle-ptb-1 d-none d-lg-block sticky-bar">
-      <div class="container">
-        <div class="header-wrap" style="height: 0rem">
-          <div class="logo logo-width-1">
-            <a href="#"
-              ><img style="padding-top: 1cm;" src="/assets/imgs/theme/timex.png" alt="logo"
-            /></a>
-          </div>
-
-          <!-- Header with Home Shop Orders -->
-
-          <div
-              class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block">
-              <nav>
-                <ul>
-                  <li>
                   
-                    <a style="padding-top: 1cm;" class="" href="/">Home <i class=""></i></a>
-                  </li>
-                  <li>
-                    <a href="/shop">Shop <i class=""></i></a>
-                  </li>
-                  <% if(locals.loginheader){%>
-                    <li class="position-static">
-                      <a href="/orders">Orders <i class=""></i></a>
-                    </li>
-
-                    <li class="position-static">
-                      <a href="/coupens">Coupons <i class=""></i></a>
-                    </li>
-
-                    
+                <% if(locals.loginheader){%>
+                  <a href="/logout" class="dropdown-item " style="color: black;">LOGOUT</a>
+                  <%}else{%>
+                    <a href="/login" class="dropdown-item" style="color: black;">LOGIN</a>
                     <%}
-                  
-                  %>
-                  
-                 
-                </ul>
-              </nav>
-            </div>
-
-            
-           
-
-            </div> 
-            
-            <div class="header-action-right">
-              <div class="header-action-2">
-                <!-- if -->
-                <div>
-
-                
-            <div class="flex-w flex-c-m m-tb-10">
-                <div class="filter-container">
-                    <div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter"
-                        id="filter-button">
-                        <i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
-                        <i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
-                       
-                    </div>
-                    <div class="filter-options" id="filter-options">
-                    </div>
-                </div>
-                <% if(locals.shop){%>
-                  <form action="/search" method="GET" class="searchform">
-                    <div class="input-group">
-                        <input list="search_terms" type="text" name="search" class="form-control"
-                            value="" id="search" placeholder="Product Name.." />
-                        <datalist id="search_terms">
-                          <!-- for each loop -->
-
-                          
-                            <option value="">name of the products</option>
-
-                            <!-- loop close -->
-                        </datalist>
-                        <button class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search" type="submit">
-                            <i class="icon-search">Search</i>
-                        </button>
-                    </div>
-                </form>
-                  <%} %>
-                
-            </div>
-                </div>
-                
-                <div class="header-action-icon-2">
-                  <a href="/view-wishlist">
-                    <img
-                      class="svgInject"
-                      alt=""
-                      src="assets/imgs/theme/icons/icon-heart.svg"
-                    />
-                    <% if(locals.wishcount){%>
-                      <span class="pro-count blue"><%= locals.wishcount%></span>
-                      <%}
-                      %> 
-                  </a>
-                </div>
-
-                <div class="header-action-icon-2">
-                  <a class="mini-cart-icon" href="/cart">
-                    <img
-                      alt=""
-                      src="assets/imgs/theme/icons/icon-cart.svg"
-                    />
-                    <% if(locals.cartCount){%>
-                    <span class="pro-count blue"><%=locals.cartCount%></span>
-                    <%}
-                    %> 
-                  </a>
+                %>
                   
                 </div>
               </div>
-            </div>
-          </div> 
+            
+            </ul>
+          </div>
         </div>
       </div>
     </div>
-    <div class="header-bottom header-bottom-bg-color">
-      <div class="container">
-        <div class="header-wrap header-space-between position-relative main-nav">
-          <div class="logo logo-width-1 d-block d-lg-none">
-            <a href="index.html"
-              ><img src="/assets/imgs/theme/timex.png" alt="logo"
-            /></a>
+  </div>
+  <div class="header-middle header-middle-ptb-1 d-none d-lg-block sticky-bar">
+    <div class="container">
+      <div class="header-wrap" style="height: 0rem">
+        <div class="logo logo-width-1">
+          <a href="#"
+            ><img style="padding-top: 1cm;" src="/assets/imgs/theme/timex.png" alt="logo"
+          /></a>
+        </div>
+
+        <!-- Header with Home Shop Orders -->
+
+        <div
+            class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block">
+            <nav>
+              <ul>
+                <li>
+                
+                  <a style="padding-top: 1cm;" class="" href="/">Home <i class=""></i></a>
+                </li>
+                <li>
+                  <a href="/shop">Shop <i class=""></i></a>
+                </li>
+                <% if(locals.loginheader){%>
+                  <li class="position-static">
+                    <a href="/orders">Orders <i class=""></i></a>
+                  </li>
+
+                  <li class="position-static">
+                    <a href="/coupens">Coupons <i class=""></i></a>
+                  </li>
+
+                  
+                  <%}
+                
+                %>
+                
+               
+              </ul>
+            </nav>
           </div>
+
           
-          </div>
          
-          <p class="mobile-promotion">
-            Happy <span class="text-brand">Mother's Day</span>. Big Sale Up to 40%
-          </p>
-          <div class="header-action-right d-block d-lg-none">
+
+          </div> 
+          
+          <div class="header-action-right">
             <div class="header-action-2">
+              <!-- if -->
+              <div>
+
+              
+          <div class="flex-w flex-c-m m-tb-10">
+              <div class="filter-container">
+                  <div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter"
+                      id="filter-button">
+                      <i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
+                      <i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+                     
+                  </div>
+                  <div class="filter-options" id="filter-options">
+                  </div>
+              </div>
+              <% if(locals.shop){%>
+                <form action="/search" method="GET" class="searchform">
+                  <div class="input-group">
+                      <input list="search_terms" type="text" name="search" class="form-control"
+                          value="" id="search" placeholder="Product Name.." />
+                      <datalist id="search_terms">
+                        <!-- for each loop -->
+
+                        
+                          <option value="">name of the products</option>
+
+                          <!-- loop close -->
+                      </datalist>
+                      <button class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search" type="submit">
+                          <i class="icon-search">Search</i>
+                      </button>
+                  </div>
+              </form>
+                <%} %>
+              
+          </div>
+              </div>
+              
               <div class="header-action-icon-2">
                 <a href="/view-wishlist">
                   <img
@@ -256,28 +210,221 @@
                     %> 
                 </a>
               </div>
-              <!-- meeeeee -->
+
               <div class="header-action-icon-2">
-                <div class="header-action-icon-2">
-                  <a class="mini-cart-icon" href="/cart">
-                    <img
-                      alt="Evara"
-                      src="assets/imgs/theme/icons/icon-cart.svg"
-                    />
-                    <% if(locals.cartCount){%>
-                    <span class="pro-count blue"><%=locals.cartCount%></span>
-                    <%}
-                    %> 
-                  </a>
-                  
-                </div>
+                <a class="mini-cart-icon" href="/cart">
+                  <img
+                    alt=""
+                    src="assets/imgs/theme/icons/icon-cart.svg"
+                  />
+                  <% if(locals.cartCount){%>
+                  <span class="pro-count blue"><%=locals.cartCount%></span>
+                  <%}
+                  %> 
+                </a>
                 
               </div>
-              <div class="header-action-icon-2 d-block d-lg-none">
-                <div class="burger-icon burger-icon-white">
-                  <span class="burger-icon-top"></span>
-                  <span class="burger-icon-mid"></span>
-                  <span class="burger-icon-bottom"></span>
+            </div>
+          </div>
+        </div> 
+      </div>
+    </div>
+  </div>
+
+
+  <!-- mobileeeeeeeeeeeeeeeeeeeeeee -->
+
+  <div class="header-bottom header-bottom-bg-color">
+    <div class="container">
+      <div class="header-wrap header-space-between position-relative main-nav">
+        <div class="logo logo-width-1 d-block d-lg-none">
+          <a href="'/"
+            ><img src="/assets/imgs/theme/timex.png" alt="logo"
+          /></a>
+        </div>
+        
+        </div>
+        
+        <p class="mobile-promotion">
+          Happy <span class="text-brand">Mother's Day</span>. Big Sale Up to 40%
+        </p>
+        <div class="header-action-right d-block d-lg-none">
+          <div class="header-action-2">
+            <div class="header-action-icon-2">
+              <a href="/view-wishlist">
+                <img
+                  class="svgInject"
+                  alt=""
+                  src="assets/imgs/theme/icons/icon-heart.svg"
+                />
+                <% if(locals.wishcount){%>
+                  <span class="pro-count blue"><%= locals.wishcount%></span>
+                  <%}
+                  %> 
+              </a>
+            </div>
+            <!-- meeeeee -->
+            <div class="header-action-icon-2">
+              <div class="header-action-icon-2">
+                <a class="mini-cart-icon" href="/cart">
+                  <img
+                    alt="Evara"
+                    src="assets/imgs/theme/icons/icon-cart.svg"
+                  />
+                  <% if(locals.cartCount){%>
+                  <span class="pro-count blue"><%=locals.cartCount%></span>
+                  <%}
+                  %> 
+                </a>
+                
+              </div>
+              
+            </div>
+
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <% if(locals.loginheader){%>
+                  <%=userName%>
+                  <%} else{%>
+                    Account
+                    <%}
+                    %>
+                <!-- Dropdown -->
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+
+                <% if(locals.loginheader){%>
+                  <a class="dropdown-item" href="/profile" style="color: black;" >MY ACCOUNT</a>
+                <hr>
+                <a class="dropdown-item" href="/orders" style="color: black;">ORDERS</a>
+                <hr>
+                  <%}else{%>
+                    <a href="/login" class="dropdown-item" style="color: black;">CONTACT US</a>
+                    <hr>
+                    <a href="/signup" class="dropdown-item" style="color: black;">SIGNUP</a>
+                    <hr>
+                    <%}
+                %>
+                
+              <% if(locals.loginheader){%>
+                <a href="/logout" class="dropdown-item " style="color: black;">LOGOUT</a>
+                <%}else{%>
+                  <a href="/login" class="dropdown-item" style="color: black;">LOGIN</a>
+                  <%}
+              %>
+                
+              </div>
+            </div>
+
+
+
+            <div class="header-action-icon-2 d-block d-lg-none">
+              <div class="burger-icon burger-icon-white">
+                <span class="burger-icon-top"></span>
+                <span class="burger-icon-mid"></span>
+                <span class="burger-icon-bottom"></span>
+                <!-- here -->
+                <div class="mobile-header-active mobile-header-wrapper-style">
+                  <div class="mobile-header-wrapper-inner">
+                    <div class="mobile-header-top">
+                      <div class="mobile-header-logo">
+                        <a href="/"
+                          ><img src="assets/imgs/theme/logo.png" alt="logo"
+                        /></a>
+                      </div>
+                      <div
+                        class="mobile-menu-close close-style-wrap close-style-position-inherit"
+                      >
+                        <button class="close-style search-close">
+                          <i class="icon-top"></i>
+                          <i class="icon-bottom"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="mobile-header-content-area">
+                      <div class="mobile-search search-style-3 mobile-header-border">
+                        <form action="#">
+                          <input type="text" placeholder="Search for items…" />
+                          <button type="submit"><i class="fi-rs-search"></i></button>
+                        </form>
+                      </div>
+                      <div class="mobile-menu-wrap mobile-header-border">
+                         
+                        <!-- mobile menu start -->
+                        <nav>
+                          <ul class="mobile-menu">
+                            <li class="menu-item-has-children">
+                              <a href="/">Home</a>
+                            </li>
+                            <li class="menu-item-has-children">
+                              <span class="menu-expand"></span><a href="/shop">Shop</a>
+                            </li>
+                            <li class="menu-item-has-children">
+                              <span class="menu-expand"></span><a href="/orders">Orders</a>
+                            </li>
+                            <!-- <li class="menu-item-has-children">
+                              <span class="menu-expand"></span
+                              ><a href="#">About</a>
+                            </li> -->
+                            <!-- <li class="menu-item-has-children">
+                              <span class="menu-expand"></span
+                              ><a href="#">Contact</a>
+                            </li> -->
+              
+                            <li class="menu-item-has-children">
+                              <!-- <span class="menu-expand"></span><a href="#">Language</a>
+                              <ul class="dropdown">
+                                <li><a href="#">English</a></li>
+                                <li><a href="#">French</a></li>
+                                <li><a href="#">German</a></li>
+                                <li><a href="#">Spanish</a></li>
+
+
+                              </ul> -->
+
+                              <% if(locals.loginheader){%>
+                                <a href="/logout"  style="color: black;">LOGOUT</a>
+                                <%}else{%>
+                                  <a href="/login"  style="color: black;">LOGIN</a>
+                                  <%}
+                              %>
+                            </li>
+                          </ul>
+                        </nav>
+                        <!-- mobile menu end -->
+                      </div>
+                      <div class="mobile-header-info-wrap mobile-header-border">
+                        <div class="single-mobile-header-info mt-30">
+                          <a href="#"> Our location </a>
+                        </div>
+
+                        
+
+                       
+                        <div class="single-mobile-header-info">
+                          <a href="#">+918590196310 </a>
+                        </div>
+                      </div>
+                      <div class="mobile-social-icon">
+                        <h5 class="mb-15 text-grey-4">Follow Us</h5>
+                        <a href="#"
+                          ><img src="assets/imgs/theme/icons/icon-facebook.svg" alt=""
+                        /></a>
+                        <a href="#"
+                          ><img src="assets/imgs/theme/icons/icon-twitter.svg" alt=""
+                        /></a>
+                        <a href="#"
+                          ><img src="assets/imgs/theme/icons/icon-instagram.svg" alt=""
+                        /></a>
+                        <a href="#"
+                          ><img src="assets/imgs/theme/icons/icon-pinterest.svg" alt=""
+                        /></a>
+                        <a href="#"
+                          ><img src="assets/imgs/theme/icons/icon-youtube.svg" alt=""
+                        /></a>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -285,5 +432,7 @@
         </div>
       </div>
     </div>
-  </header>
-  
+  </div>
+</header>
+
+ 

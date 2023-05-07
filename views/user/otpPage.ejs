@@ -36,46 +36,81 @@
 }
 
 </style>
-<div class="d-flex justify-content-center align-items-center container" >
-    <div class="card py-5 px-3">
-    
-            <p id="otpInvalid" style="color: red;"></p>
-        <div class="d-flex flex-row mt-5" style="width: 15cm; height: -29cm;">
-            <form id="send-otp" action="" style="padding-left: 17%;">
-              <label for="" style="font-family: sans-serif; color: #666;
-              font-weight: 300;
-              ">Phone Number*</label>
-                <input type="text" name="mobile" class="form-control" autofocus=" " style="width: 10cm;">
-                <hr>
-                <button  class="btn btn-primary btn-sm" style="background-color:green; width: 3cm;" >GET OTP</button>
-                <button style="visibility:hidden; width:3cm; background: red;" id="open-modal" class="btn btn-danger">verify</button>   
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css">
+  <title>Responsive Page</title>
+</head>
+
+<body>
+  <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css">
+  <title>Responsive Page</title>
+  <style>
+    /* Custom CSS for specific styling */
+    @media (max-width: 576px) {
+      /* Styles for small screens */
+      .card {
+        width: 90%;
+        max-width: 350px;
+        margin: 0 auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card text-center">
+      <div class="card-body">
+        <p id="otpInvalid" style="color: red;"></p>
+        <form id="send-otp" action="">
+          <div class="mb-3">
+            <label for="mobile" class="form-label">Phone Number*</label>
+            <input type="text" name="mobile" id="mobile" class="form-control" autofocus>
+          </div>
+          <hr>
+          <div class="text-center">
+            <button class="btn btn-primary" style="background-color: green;">GET OTP</button>
+            <button style="visibility: hidden; background: red;" id="open-modal" class="btn btn-danger">verify</button>
+          </div>
         </form>
-    </div>
-        <div class="text-center mt-5" ><span class="d-block mobile-text">Don't receive the code?</span><span class="font-weight-bold text-danger cursor">Resend</span></div>
-
-    </div>
-    
-</div>
-
-
-
-<div id="modal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <div class="form">
-      <form id="verify-otp" action="/verify-otp" action="post">
-        ------------------
-            <div class="userInput">
-                <input type="text" name="otp" id='ist' maxlength="6" >
-                
-            </div>
-            <button type="submit" class="btn btn-primary">CONFIRM</button>
+        <div class="text-center mt-5">
+          <span class="d-block mobile-text">Don't receive the code?</span>
+          <span class="font-weight-bold text-danger cursor">Resend</span>
         </div>
-      </form>
-       
       </div>
-</div>
+    </div>
+  </div>
+
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="form">
+        <form id="verify-otp" action="/verify-otp" action="post">
+          <!-- Otp verification form content -->
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Add your JavaScript code here, if needed
+  </script>
+</body>
+
+</html>
+
 
 <script>
     // Get the modal

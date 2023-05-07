@@ -800,6 +800,7 @@ getsubTotal: (userId) => {
               Productname: "$wishlist.Productname",
               Price: "$wishlist.Price",
               Image: "$wishlist.Image",
+              Quantity:"$wishlist.Quantity"
             },
           },
 
@@ -842,7 +843,7 @@ getsubTotal: (userId) => {
           // }
         ])
         .then((wishlist) => {
-          console.log(wishlist);
+          console.log(wishlist,"hhhhhhhhhhhhhh");
           console.log("hhhhhhhhhhhhhhhhh");
           resolve(wishlist);
         });
@@ -926,7 +927,6 @@ getsubTotal: (userId) => {
   // },
 
   placeOrder: (order, carts, total, userId) => {
-    console.log(carts,'iam hereeeeeeeeeee');
     return new Promise((resolve, reject) => {
       const cartId = order.flexRadioDefault;
   
@@ -942,6 +942,8 @@ getsubTotal: (userId) => {
             (a) => a._id.toString() === cartId
           );
           if (!cartAddress) {
+            // let AddErr="Cart address not found";
+            // return AddErr;
             throw new Error("Cart address not found");
           }
   
@@ -971,9 +973,7 @@ getsubTotal: (userId) => {
                 await db.cart.deleteMany({ userid: ObjectId(userId) });
                await carts.forEach( async element => {
                   const proId = element.proId
-                  console.log(proId,'dddddd');
                   const stock = element.Quantity
-                  console.log(-stock,'eeeeeeeeeeeeeeeeee');
                   await db.products.updateOne({_id:proId},{$inc:{Quantity:-stock}})
                 });
               }
