@@ -25,7 +25,7 @@ router.get('/shop',controller.shopView)
 // router.get('/shop-product',controller.productView)
 
 router.get('/category/:id',controller.getCategory)
-
+// kk
 router.get('/logout',controller.userlogout)
 
 //newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
