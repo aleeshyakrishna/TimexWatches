@@ -1,38 +1,31 @@
-require('dotenv').config()
+require("dotenv").config();
 const adminhelpers = require("../helpers/adminHelpers");
 const userhelpers = require("../helpers/userHelpers");
-const twilioApi = require('../api/twilio');
-const {verifyOtp}=require('../api/twilio')
+const twilioApi = require("../api/twilio");
+const { verifyOtp } = require("../api/twilio");
 
 const { category } = require("../model/connection");
-const {user} = require('../model/connection')
+const { user } = require("../model/connection");
 
 var loginheader, loginStatus;
 
-
-
 module.exports = {
   getHome: async (req, res) => {
-   
     if (req.session.userIn) {
-  
-      let loginStatus=true;
+      let loginStatus = true;
       let user = req.session.user.username;
       let userId = req.session.user._id;
-
-
 
       const cartCount = await userhelpers.getCartCount(userId);
       wishcount = await userhelpers.getWishCount(userId);
       req.session.cartCount = cartCount;
-    
-        res.render("user/userhome", {
-          loginheader: true,
-          cartCount,
-          wishcount,
-          userName: user,
-        });
-     
+
+      res.render("user/userhome", {
+        loginheader: true,
+        cartCount,
+        wishcount,
+        userName: user,
+      });
     } else {
       res.render("user/userhome", { loginheader: false });
     }
@@ -95,39 +88,82 @@ module.exports = {
     }
   },
 
-  shopView: (req, res) => {
+  // try {
+  //   let pageNum = req.query.page
+  //   let currentPage = pageNum
+  //   let perPage = 6
+  //   // let currentUserId=req.session.user.id
+  //   wishcount = await wishlistHelper.getWishCount(profileId)
+  //   count = await cartHelper.getCartItemsCount(req.session.user.id)
+  //   viewCategory = await adminHelper.viewAddCategory()
+  //   documentCount = await userhelpers.documentCount()
+  //   let pages = Math.ceil(parseInt(documentCount) / perPage)
+
+  //   productHelper.shopListProduct(pageNum).then((response) => {
+
+  //     res.render('user/shop', { response, profileId, wishcount, userSession, count, viewCategory, currentPage, documentCount, pages })
+  //   })
+  // } catch (error) {
+  //   res.status(500)
+  // }
+
+  shopView:async (req, res) => {
     let shop;
     if (req.session.userIn) {
       var user = req.session.user.username;
       var userId = req.session.user._id;
 
-      userhelpers.listProductShop().then((response) => {
-        console.log(response,"this is prouctss")
+
+      let pageNum = req.query.page;
+      // console.log(pageNum,"ffffffffffffffffffffffffqqqqqq");
+          let currentPage = pageNum;
+          let perPage = 3;
+
+          documentCount = await userhelpers.documentCount()
+          let pages = Math.ceil(parseInt(documentCount) / perPage)
+      userhelpers.listProductShop(pageNum).then((response) => {
         adminhelpers.findAllcategories().then(async (cat) => {
-         
           let cartCount = await userhelpers.getCartCount(userId);
           wishcount = await userhelpers.getWishCount(userId);
-          console.log(wishcount, "this is count of wishlist");
           res.render("user/shop", {
-            response,shop:true,
+            response,
+            shop: true,
             cat,
             loginheader: true,
             cartCount,
             wishcount,
-            userName: user,
+            userName: user,currentPage,documentCount,pages
           });
         });
       });
     } else {
-      userhelpers.listProductShop().then((response) => {
+
+      let pageNum = req.query.page;
+      // console.log(pageNum,"ffffffffffffffffffffffffqqqqqq");
+          let currentPage = pageNum;
+          let perPage = 3;
+
+          documentCount = await userhelpers.documentCount()
+          let pages = Math.ceil(parseInt(documentCount) / perPage)
+
+
+      userhelpers.listProductShop(pageNum).then((response) => {
         adminhelpers.findAllcategories().then(async (cat) => {
+
+
+          
          
 
-          res.render("user/shop", {
-            response,shop:true,
-            cat,shop,
-            loginheader: false,
-          });
+            res.render("user/shop", {
+              response,
+              shop: true,
+              cat,
+              shop,
+              loginheader: false,currentPage,documentCount,pages
+            });
+
+         
+         
         });
       });
     }
@@ -136,6 +172,15 @@ module.exports = {
   //now
 
   getCategory: async (req, res) => {
+
+    let pageNum = req.query.page;
+      // console.log(pageNum,"ffffffffffffffffffffffffqqqqqq");
+          let currentPage = pageNum;
+          let perPage = 3;
+
+          documentCount = await userhelpers.documentCount()
+          let pages = Math.ceil(parseInt(documentCount) / perPage)
+
     if (req.session.userIn) {
       let user = req.session.user.username;
       let userId = req.session.user._id;
@@ -147,10 +192,11 @@ module.exports = {
 
             res.render("user/shop", {
               response,
-              cat,wishcount,
+              cat,
+              wishcount,
               loginheader: true,
               cartCount,
-              userName: user,
+              userName: user,currentPage,documentCount,pages
             });
           });
         });
@@ -164,7 +210,7 @@ module.exports = {
             res.render("user/shop", {
               response,
               cat,
-              loginheader: false,
+              loginheader: false,currentPage,documentCount,pages
             });
           });
         });
@@ -178,12 +224,11 @@ module.exports = {
   },
 
   postSignup: (req, res) => {
-    console.log(req.body,"this is req.body of signup  form");
+    console.log(req.body, "this is req.body of signup  form");
     userhelpers.doSignUp(req.body).then((response) => {
       console.log(response);
       var emailStatus = response.status;
       if (emailStatus) {
-        
         res.redirect("/login");
       } else {
         res.render("user/signup", { emailStatus });
@@ -205,68 +250,73 @@ module.exports = {
     res.redirect("/");
   },
 
-//newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
-  Otppage:(req,res)=>{
-    res.render('user/otpPage', {"otpLoginErr": req.session.userExistErr})
+  //newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+  Otppage: (req, res) => {
+    res.render("user/otpPage", { otpLoginErr: req.session.userExistErr });
     req.session.userExistErr = false;
- },
+  },
 
-sendOtp : (req, res) =>{
+  sendOtp: (req, res) => {
     req.session.mobile = req.body.mobile;
-    userhelpers.findUser(req.body.mobile).then((user) =>{
-        if(user){
-            req.session.user = user;
-            twilioApi.sendOtp(req.body.mobile).then((result) =>{
-                res.json({status : true});
-            })
-        }else{
-            req.session.userExistErr = "The mobile number is not registered with any account"
-            res.json({status : false})
-        }
-       
-    })
-
-},
-
-
-VerifyOtp: (req, res) => {
-  console.log(req.session.mobile, "this is mobile........");
-  console.log(req.body.otp, "this  is otp...........");
-
-  twilioApi.verifyOtp(req.session.mobile, req.body.otp)
-    .then(async(result) => {
-      if(result.valid){
-        const User = await user.findOne({phoneNumber:req.session.mobile})
-          console.log(User)
-          if(User){
-            req.session.userIn = User
-            return res.status(200).json('approved')
-          } 
-          res.status(400).json({error:true, message: 'user not found pleace create an account'})
-      }else{
-        // req.session.otpErr = "Invalid otp.."
-        req.session.otpErr=true
-        res.status(400).json({Invaliderror:true, message: 'invalid  opt!!'})
-
-        // res.redirect('/')
+    userhelpers.findUser(req.body.mobile).then((user) => {
+      if (user) {
+        req.session.user = user;
+        twilioApi.sendOtp(req.body.mobile).then((result) => {
+          res.json({ status: true });
+        });
+      } else {
+        req.session.userExistErr =
+          "The mobile number is not registered with any account";
+        res.json({ status: false });
       }
-    })
-    .catch((err) => {
-      console.log('err:',err);
-      res.status(500).send({ message: "cant verify the otp...!" });
     });
-},
+  },
 
-//newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+  VerifyOtp: (req, res) => {
+    console.log(req.session.mobile, "this is mobile........");
+    console.log(req.body.otp, "this  is otp...........");
 
+    twilioApi
+      .verifyOtp(req.session.mobile, req.body.otp)
+      .then(async (result) => {
+        if (result.valid) {
+          const User = await user.findOne({ phoneNumber: req.session.mobile });
+          console.log(User);
+          if (User) {
+            req.session.userIn = User;
+            return res.status(200).json("approved");
+          }
+          res
+            .status(400)
+            .json({
+              error: true,
+              message: "user not found pleace create an account",
+            });
+        } else {
+          // req.session.otpErr = "Invalid otp.."
+          req.session.otpErr = true;
+          res
+            .status(400)
+            .json({ Invaliderror: true, message: "invalid  opt!!" });
 
-//  sandddddddddddeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeepppppppppppppppppppppppp
+          // res.redirect('/')
+        }
+      })
+      .catch((err) => {
+        console.log("err:", err);
+        res.status(500).send({ message: "cant verify the otp...!" });
+      });
+  },
+
+  //newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+
+  //  sandddddddddddeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeepppppppppppppppppppppppp
   //otp
 
   // showotp: (req, res) => {
   //   res.render("user/otplogin");
   // },
-  
+
   // postotp: async (req, res) => {
   //   const { mobile } = req.body;
   //   req.session.mobile=mobile;
@@ -276,7 +326,7 @@ VerifyOtp: (req, res) => {
   //               .verifications
   //               .create({to: `+91${mobile}`, channel: 'sms'})
   //               .then(verification => res.status(200).json(verification.sid));
-      
+
   //   } catch (error) {
   //     res.status(500).json({ message: "Internal server error" });
   //   }
@@ -286,96 +336,76 @@ VerifyOtp: (req, res) => {
   //     res.render('user/verifyOtp')
   // },
 
+  //   postVerifyOtp: async (req, res) => {
+  //     const {otp} = req.body
+  //     let mobile=req.session.mobile;
+  //   console.log(otp)
+  //     try {
+  //       client.verify.v2.services(serviceSid)
+  //       .verificationChecks
+  //       .create({to: `+91${mobile}`, code: otp})
+  //       .then( async verification_check => {
+  //         if(verification_check.status == 'approved'){
+  //           console.log(verification_check.status)
+  //           const User = await user.findOne({contactNumber:mobile})
+  //           console.log(User)
+  //           if(User){
+  //             req.session.userIn = User
+  //             return res.status(200).json({error:false, message: "succesfully logged in"})
+  //           }
+  //           res.status(400).json({error:true, message: 'user not found pleace create and account'})
+  //         }
+  //       });
+  //     } catch (error) {
+  //       res.status(500).json({ message: "Internal sever error occured" });
+  //     }
+  //   },
 
-//   postVerifyOtp: async (req, res) => {
-//     const {otp} = req.body
-//     let mobile=req.session.mobile;
-//   console.log(otp)
-//     try {
-//       client.verify.v2.services(serviceSid)
-//       .verificationChecks
-//       .create({to: `+91${mobile}`, code: otp})
-//       .then( async verification_check => {
-//         if(verification_check.status == 'approved'){
-//           console.log(verification_check.status)
-//           const User = await user.findOne({contactNumber:mobile})
-//           console.log(User)
-//           if(User){
-//             req.session.userIn = User
-//             return res.status(200).json({error:false, message: "succesfully logged in"})
-//           } 
-//           res.status(400).json({error:true, message: 'user not found pleace create and account'})
-//         } 
-//       });
-//     } catch (error) {
-//       res.status(500).json({ message: "Internal sever error occured" });
-//     }
-//   },
-
-
-// sandeeeeeeeeeeeeeeeeeeeeeeeeeeeeeddddddddddddddddddddddddddddddddddppppppppppppp
+  // sandeeeeeeeeeeeeeeeeeeeeeeeeeeeeeddddddddddddddddddddddddddddddddddppppppppppppp
 
   //add-to-cart
   addToCart: (req, res) => {
     try {
       const userId = req.session.user._id;
-      const proId = req.params.id;      
+      const proId = req.params.id;
       userhelpers.addToCarts(proId, userId).then((data) => {
-        console.log(data,"pppppppppppppppppppppp");
-        res.json({ status: true});
-         
+        console.log(data, "pppppppppppppppppppppp");
+        res.json({ status: true });
       });
     } catch (error) {
-      res.status(500)
+      res.status(500);
     }
-     
-      
-   
   },
 
   getCartProducts: async (req, res) => {
     let user = req.session.user.username;
-    console.log(user,"ooooooi user");
+    console.log(user, "ooooooi user");
     loginStatus = true;
-   
-   
-     let userId = req.session.user._id;
-     console.log(userId,"oooooi id");
-    
+
+    let userId = req.session.user._id;
+    console.log(userId, "oooooi id");
+
     let products = await userhelpers.displayProducts(userId);
-    console.log(products,"uuuuuuuuuuuuuuuuuuu");
+    console.log(products, "uuuuuuuuuuuuuuuuuuu");
     wishcount = await userhelpers.getWishCount(userId);
     let cartCount = await userhelpers.getCartCount(userId);
 
-    console.log(products,"this is cart items");
-    // console.log("======",products[0].proDetails[0].Quantity, "======");
-
-    
-   
-      res.render("user/cart", {
-        products,
-        productExist: true,
-        cartCount,
-        wishcount,
-        loginheader: true,
-        userName: user,
-      });
-   
-    
+    res.render("user/cart", {
+      products,
+      productExist: true,
+      cartCount,
+      wishcount,
+      loginheader: true,
+      userName: user,
+    });
   },
 
   getWishlist: async (req, res) => {
-    
-
-     
-      userhelpers
-        .addToWishList(req.params.id, req.session.user._id)
-        .then(() => {
-          res.json({
-            status: "success",
-          });
-        });
-    
+    userhelpers.addToWishList(req.params.id, req.session.user._id).then(() => {
+      res.json({
+        status: "success",
+      });
+    });
   },
 
   viewWishList: async (req, res) => {
@@ -418,10 +448,9 @@ VerifyOtp: (req, res) => {
         res.redirect("/cart");
       });
   },
- 
-        
+
   // changeQuantity: async (req, res) => {
- 
+
   //   let  userId = req.session.user._id;
   //   let quantity=parseInt(req.body.quantity)
 
@@ -438,40 +467,39 @@ VerifyOtp: (req, res) => {
   //     let total = await userhelpers.getTotalAmount(userId);
   //     let grandTotal = total[0].totalRevenue
 
-      
   //     res.status(200).json(grandTotal);
   //   }
   // },
 
-  changeQuantity: async(req, res) => {
-    console.log(req.body,'dddddddddddddddd');
+  changeQuantity: async (req, res) => {
+    console.log(req.body, "dddddddddddddddd");
     let stock;
-    await userhelpers.zoomlistProductShop(req.body.product).then((response)=>{
-      console.log(response,'responseessssss');
-      stock = response.Quantity
-      console.log(response.Quantity,'quantititityyy');
-    })
-    console.log(req.body.quantity,'alalalalalal');
+    await userhelpers.zoomlistProductShop(req.body.product).then((response) => {
+      console.log(response, "responseessssss");
+      stock = response.Quantity;
+      console.log(response.Quantity, "quantititityyy");
+    });
+    console.log(req.body.quantity, "alalalalalal");
 
-    if(req.body.quantity>=stock){
-      console.log('out of stock!');
-      res.json({stock:true})
-    }else{
-      userhelpers.change_Quantity(req.body).then(async (response) => {
-        // response.total = await userhelpers.getsubTotal(req.session.user._id)
-        // console.log(response,"subtotal respoonse................");
-        res.json(response )
-    }).catch((error)=>{
-        res.status(500)
-       })
+    if (req.body.quantity >= stock) {
+      console.log("out of stock!");
+      res.json({ stock: true });
+    } else {
+      userhelpers
+        .change_Quantity(req.body)
+        .then(async (response) => {
+          // response.total = await userhelpers.getsubTotal(req.session.user._id)
+          // console.log(response,"subtotal respoonse................");
+          res.json(response);
+        })
+        .catch((error) => {
+          res.status(500);
+        });
     }
-    
-    },
+  },
 
   placeOrder: (req, res) => {
- 
-    let  userId = req.session.user._id;
-    
+    let userId = req.session.user._id;
 
     userhelpers.getTotalAmount(userId).then(async (total) => {
       const data = total;
@@ -489,7 +517,6 @@ VerifyOtp: (req, res) => {
 
       let wishcount = await userhelpers.getWishCount(userId);
 
-
       res.render("user/checkout", {
         value,
         products,
@@ -498,31 +525,27 @@ VerifyOtp: (req, res) => {
         user: userId,
         userName: user,
         address: userDetails.address,
-        coupons: coupens,wishcount
+        coupons: coupens,
+        wishcount,
       });
     });
   },
-  
 
   postPlaceOrder: async (req, res) => {
- 
-     let userId = req.session.user._id;
-       let carts = await userhelpers.getCartProductList(userId);
+    let userId = req.session.user._id;
+    let carts = await userhelpers.getCartProductList(userId);
     let total = await userhelpers.getTotalAmount(userId);
-    
-    let value = total[0].totalRevenue;
-    userhelpers
-      .placeOrder(req.body, carts, value, userId)
-      .then((orderID) => {
-        if (req.body["paymentMethod"] == "COD") {
-          res.json({ codstatus: true });
-        } else {
 
-          userhelpers.generateRazorpay(orderID, value).then((response) => {
-            res.json(response);
-          });
-        }
-      });
+    let value = total[0].totalRevenue;
+    userhelpers.placeOrder(req.body, carts, value, userId).then((orderID) => {
+      if (req.body["paymentMethod"] == "COD") {
+        res.json({ codstatus: true });
+      } else {
+        userhelpers.generateRazorpay(orderID, value).then((response) => {
+          res.json(response);
+        });
+      }
+    });
 
     const newaddress = {
       user: userId,
@@ -538,14 +561,10 @@ VerifyOtp: (req, res) => {
         email: req.body.email,
       },
     };
-
-    
   },
 
   VerifyOrder: (req, res) => {
-
     res.redirect("/user/order-success");
-   
   },
 
   saveAddress: (req, res) => {
@@ -561,10 +580,9 @@ VerifyOtp: (req, res) => {
     });
   },
   getOrder: async (req, res) => {
-
     let userId = req.session.user._id;
     let user = req.session.user.username;
-     userhelpers.countCoupon(userId);
+    userhelpers.countCoupon(userId);
     let wishcount = await userhelpers.getWishCount(req.session.user._id);
     let cartCount = await userhelpers.getCartCount(userId);
     res.render("user/order-success", {
@@ -574,10 +592,7 @@ VerifyOtp: (req, res) => {
       cartCount: cartCount,
       userName: user,
     });
-
   },
-
- 
 
   viewOrder: (req, res) => {
     let userId = req.session.user._id;
@@ -627,7 +642,6 @@ VerifyOtp: (req, res) => {
     });
   },
 
-
   applyCoupon: async (req, res) => {
     let userId = req.session.user._id;
     let coupenCode = req.body.couponCode;
@@ -643,7 +657,7 @@ VerifyOtp: (req, res) => {
 
   getProfile: async (req, res) => {
     let userId = req.session.user._id;
-    
+
     // console.log(address,"tjhiiiiiiiiiiiiis");
     userhelpers.viewUserOrders(userId).then(async (order) => {
       let details = await userhelpers.getAddress(userId);
@@ -651,8 +665,14 @@ VerifyOtp: (req, res) => {
       let cartCount = await userhelpers.getCartCount(userId);
       loginStatus = true;
       let user = req.session.user.username;
-      let address=details[0].address
-      console.log(details.address,wishcount,cartCount,user,"aaaaaaaaaaaaaaaaaaall in one");
+      let address = details[0].address;
+      console.log(
+        details.address,
+        wishcount,
+        cartCount,
+        user,
+        "aaaaaaaaaaaaaaaaaaall in one"
+      );
       res.render("user/profile", {
         loginheader: true,
         userName: user,
@@ -664,21 +684,17 @@ VerifyOtp: (req, res) => {
     });
   },
 
-  
-
   orderProducts: async (req, res) => {
     let email = req.session.user.email;
-    let subTotal=await userhelpers.getsubTotal(req.session.user._id)
+    let subTotal = await userhelpers.getsubTotal(req.session.user._id);
 
-    console.log(subTotal,"joyyyyyyyyyyyyy");
+    console.log(subTotal, "joyyyyyyyyyyyyy");
     let order = await userhelpers.getOrderProducts(req.params.id);
-    console.log(order[0].products,"ooreeeeeeeeeeeeeeer");
+    console.log(order[0].products, "ooreeeeeeeeeeeeeeer");
     // for(let i=0;i<order[0].products[0].length;i++){
     //   let sub=order[0].products[0].Price*order[0].products[0].Quantity
     //   console.log(sub,"this is suuuuuuuuuuuuuuuuuuub");
     // }
-   
-    
 
     let wishcount = await userhelpers.getWishCount(req.session.user._id);
     let cartCount = await userhelpers.getCartCount(req.session.user._id);
@@ -691,7 +707,7 @@ VerifyOtp: (req, res) => {
       userName: user,
       order,
       email,
-      subTotal
+      subTotal,
     });
   },
 
@@ -705,20 +721,18 @@ VerifyOtp: (req, res) => {
       req.body.status
     );
     if (orderStatus) {
-      if(req.body.status=='Returned'){
-        userhelpers.getOrderProducts(req.params.id).then((response)=>{
-          console.log(response[0].products,'enthokkeyondddd');
-          const products = response[0].products
-          products.forEach( async element => {
-            const proName = element.Name
-            const stock = element.Quantity
-            await userhelpers.updateStock(proName,stock)
+      if (req.body.status == "Returned") {
+        userhelpers.getOrderProducts(req.params.id).then((response) => {
+          console.log(response[0].products, "enthokkeyondddd");
+          const products = response[0].products;
+          products.forEach(async (element) => {
+            const proName = element.Name;
+            const stock = element.Quantity;
+            await userhelpers.updateStock(proName, stock);
           });
-        })
+        });
       }
       res.json({ status: true });
-
-
     }
   },
 
@@ -738,56 +752,88 @@ VerifyOtp: (req, res) => {
       }
     });
   },
-//current paneeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-  search: async(req, res) => {        
+  //current paneeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+  search: async (req, res) => {
     const searchValue = req.query.search;
-    
-    if(req.session.user) {
-        var userId=req.session.user._id;
-        var user=req.session.user.username;
-        
-        console.log(userId,user,"ffffffffffffffffff");
-      
-        let wishcount = await userhelpers.getWishCount(userId);
-        let cartCount = await userhelpers.getCartCount(userId);
-        let cat= await adminhelpers.findAllcategories()
-         
-       await userhelpers.search({ search: searchValue }).then((response) => {
-            if (response.length > 0) {
-              res.render('user/shop',
-               {loginheader:true,shop:true,
-                response,user,cartCount,
-                wishcount,cat,userName:user})
-            } else {
-            res.render('user/searchEmpty', {loginheader:true,shop:false,
-              user,cartCount,wishcount,userName:user})
-            }
-          }).catch((err) => {
-            res.json({
-              status: 'error',
-              message: err.message
+    let pageNum = req.query.page;
+    // console.log(pageNum,"ffffffffffffffffffffffffqqqqqq");
+        let currentPage = pageNum;
+        let perPage = 3;
+
+        documentCount = await userhelpers.documentCount()
+        let pages = Math.ceil(parseInt(documentCount) / perPage)
+    if (req.session.user) {
+      var userId = req.session.user._id;
+      var user = req.session.user.username;
+
+      console.log(userId, user, "ffffffffffffffffff");
+
+      let wishcount = await userhelpers.getWishCount(userId);
+      let cartCount = await userhelpers.getCartCount(userId);
+      let cat = await adminhelpers.findAllcategories();
+
+      await userhelpers
+        .search({ search: searchValue })
+        .then((response) => {
+          if (response.length > 0) {
+            res.render("user/shop", {
+              loginheader: true,
+              shop: true,
+              response,
+              user,
+              cartCount,
+              wishcount,
+              cat,
+              userName: user,documentCount,currentPage,pages
             });
-          });
-    }else{
-
-       userhelpers.search({ search: searchValue }).then(async(response) => {
-        let cat= await adminhelpers.findAllcategories()
-
-            if (response.length > 0) {
-              res.render('user/shop', {loginheader: false,response,cat,shop:true})
-            } else {
-            res.render('user/searchEmpty', {loginheader: false,response,shop:false})
-            }
-          }).catch((err) => {
-            res.json({
-              status: 'error',
-              message: err.message
+          } else {
+            res.render("user/searchEmpty", {
+              loginheader: true,
+              shop: false,
+              user,
+              cartCount,
+              wishcount,
+              userName: user,
             });
+          }
+        })
+        .catch((err) => {
+          res.json({
+            status: "error",
+            message: err.message,
           });
-    }        
-},
+        });
+    } else {
+      userhelpers
+        .search({ search: searchValue })
+        .then(async (response) => {
+          let cat = await adminhelpers.findAllcategories();
 
-searchempty:(req,res)=>{
-  res.render('user/searchEmpty')
-}
+          if (response.length > 0) {
+            res.render("user/shop", {
+              loginheader: false,
+              response,
+              cat,
+              shop: true,documentCount,currentPage,pages
+            });
+          } else {
+            res.render("user/searchEmpty", {
+              loginheader: false,
+              response,
+              shop: false,
+            });
+          }
+        })
+        .catch((err) => {
+          res.json({
+            status: "error",
+            message: err.message,
+          });
+        });
+    }
+  },
+
+  searchempty: (req, res) => {
+    res.render("user/searchEmpty");
+  },
 };

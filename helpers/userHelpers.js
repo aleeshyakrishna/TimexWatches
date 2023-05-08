@@ -101,11 +101,30 @@ module.exports = {
     });
   },
 
-  listProductShop: () => {
+  listProductShop: (pageNum) => {
+    // let perPage = 6
+    // return new Promise(async (resolve, reject) => {
+
+
+
+    //     await db.product.find().skip((pageNum - 1) * perPage).limit(perPage).then((response) => {
+
+    //         resolve(response)
+    //     })
+
+
+    // })
+
+
+    let perPage = 3
+
     return new Promise(async (resolve, reject) => {
+
+
       await db.products
         .find()
-        .exec()
+        .skip((pageNum - 1) * perPage)
+        .limit(perPage)
         .then((response) => {
           resolve(response);
         });
@@ -966,7 +985,7 @@ getsubTotal: (userId) => {
               date: new Date(),
             })
             .then(async (response) => {
-              console.log(response, "this is the response.........");
+              // console.log(response, "this is the response.........");
               if (response) {
 
                 console.log(userId, "this is user id");
@@ -1182,7 +1201,9 @@ getsubTotal: (userId) => {
   },
 
   search: (details) => {
-    console.log(details,"inside the helper function search");
+
+   
+
     return new Promise(async(resolve, reject) => {
       try {
         const searchValue = details.search;
@@ -1208,7 +1229,25 @@ getsubTotal: (userId) => {
         reject(err);
       }
     })
-  }
+  },
+
+  shopListProduct: (pageNum) => {
+
+    let perPage = 3
+    return new Promise(async (resolve, reject) => {
+
+
+
+        await db.products.find().skip((pageNum - 1) * perPage).limit(perPage).then((response) => {
+
+            resolve(response)
+        })
+
+
+    })
+},
+
+
 
   
 

@@ -39,14 +39,19 @@
                                   </td>
                                   <td class="price" data-title="Price"><span><%=product.proDetails[0].Price%></span></td>
                                   <td class="text-center" data-title="Stock">
+
+
                                       <div class="detail-qty border radius  m-auto">
-                                      
-                                          
+
+                                       
                                             <a  class="qty-up" onclick="cartQuantity('<%= product._id %>','<%= product.proDetails[0]._id%>','<%= product.proDetails[0].Price %>',1)">
                                               <i class="fi-rs-angle-small-up"></i></a>
                                           <p id="qty<%= product.proDetails[0]._id%>"><%= product.products.quantity %></p>
                                           <a class="qty-down" onclick="cartQuantity('<%= product._id %>','<%= product.proDetails[0]._id%>','<%= product.proDetails[0].Price %>',-1)">
-                                            <i class="fi-rs-angle-small-down"></i></a> 
+                                            <i class="fi-rs-angle-small-down"></i></a>
+                                          
+                                          
+                                            
                                           
                                           
                                       </div>
@@ -204,7 +209,7 @@ function cartQuantity(cartId, prodId, Price, count) {
     success: (response) => {
       
       if (response.stock) {
-        console.log('out of stock');
+        // console.log('out of stock');
         swal("Oops!", "Out of Stock!", "error");  
 
       }else{
