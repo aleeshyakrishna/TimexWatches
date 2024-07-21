@@ -57,7 +57,6 @@ module.exports={
 
 
           console.log(idSum,"888888888888888");
-          // console.log(response,"999999999999999");
           resolve(idSum)
 
         })

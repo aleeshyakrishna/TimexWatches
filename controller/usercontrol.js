@@ -308,61 +308,7 @@ module.exports = {
       });
   },
 
-  //newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
-
-  //  sandddddddddddeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeepppppppppppppppppppppppp
-  //otp
-
-  // showotp: (req, res) => {
-  //   res.render("user/otplogin");
-  // },
-
-  // postotp: async (req, res) => {
-  //   const { mobile } = req.body;
-  //   req.session.mobile=mobile;
-  //   try {
-  //     console.log(mobile, req.body,"mobileeeeeeeee")
-  //     client.verify.v2.services(serviceSid)
-  //               .verifications
-  //               .create({to: `+91${mobile}`, channel: 'sms'})
-  //               .then(verification => res.status(200).json(verification.sid));
-
-  //   } catch (error) {
-  //     res.status(500).json({ message: "Internal server error" });
-  //   }
-  // },
-
-  // verifyOtp:(req,res)=>{
-  //     res.render('user/verifyOtp')
-  // },
-
-  //   postVerifyOtp: async (req, res) => {
-  //     const {otp} = req.body
-  //     let mobile=req.session.mobile;
-  //   console.log(otp)
-  //     try {
-  //       client.verify.v2.services(serviceSid)
-  //       .verificationChecks
-  //       .create({to: `+91${mobile}`, code: otp})
-  //       .then( async verification_check => {
-  //         if(verification_check.status == 'approved'){
-  //           console.log(verification_check.status)
-  //           const User = await user.findOne({contactNumber:mobile})
-  //           console.log(User)
-  //           if(User){
-  //             req.session.userIn = User
-  //             return res.status(200).json({error:false, message: "succesfully logged in"})
-  //           }
-  //           res.status(400).json({error:true, message: 'user not found pleace create and account'})
-  //         }
-  //       });
-  //     } catch (error) {
-  //       res.status(500).json({ message: "Internal sever error occured" });
-  //     }
-  //   },
-
-  // sandeeeeeeeeeeeeeeeeeeeeeeeeeeeeeddddddddddddddddddddddddddddddddddppppppppppppp
-
+  
   //add-to-cart
   addToCart: (req, res) => {
     try {

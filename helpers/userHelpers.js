@@ -232,6 +232,7 @@ module.exports = {
         let userId = new ObjectId(usersId);
         let cartItems = await db.cart.aggregate([
           {
+
             $match: {
               userid: userId,
             },
@@ -284,16 +285,18 @@ module.exports = {
               },
             },
            
-          // },{
+          },{
 
-          //   $unwind: {
-          //     path: '$proDetails',
-          //     includeArrayIndex: 'string',
+            $unwind: {
+              path: '$proDetails',
+              includeArrayIndex: 'string',
              
-          //   }
+            }
           }
         ]);
+        // console.log(cartItems,"hihihilhihihihihihih");
         resolve(cartItems);
+        
       } catch {
         resolve(null);
       }
